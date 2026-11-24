@@ -9,5 +9,9 @@ export default function Logout() {
         navigate('/login');
     };
 
-    return <button onClick={handleLogout}>Sair</button>;
+    return (
+        <button className="btn btn-logout" onClick={handleLogout}>
+            Sair
+        </button>
+    );
 }

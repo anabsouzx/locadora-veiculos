@@ -45,7 +45,7 @@ export default function Locacoes() {
             });
 
             setValorCalculado(locacao.valor_total);
-            setMensagem('Locação registrada com sucesso!');
+            setMensagem('Locação confirmada! Simplesmente pegue a estrada.');
             setVeiculoId('');
             setDataInicio('');
             setDataPrevista('');
@@ -58,39 +58,75 @@ export default function Locacoes() {
     return (
         <div>
             <Menu />
-            <h2>Registrar Locação</h2>
+            <main className="container">
+                <section className="hero-banner">
+                    <div className="hero-content">
+                        <span className="hero-tag">Vamos pegar a estrada?</span>
+                        <h1>Seu destino, suas regras, seu caminho.</h1>
+                        <p>
+                            Escolha um veículo disponível, defina o período e deixe o cálculo automático com a gente. Qualquer fração de 24h conta como diária completa.
+                        </p>
+                    </div>
+                </section>
 
-            {mensagem && <p style={{ color: 'green' }}>{mensagem}</p>}
-            {valorCalculado !== null && (
-                <p><strong>Valor total calculado: R$ {valorCalculado.toFixed(2)}</strong></p>
-            )}
-            {erro && <p style={{ color: 'red' }}>{erro}</p>}
+                {mensagem && <div className="alert alert-success">{mensagem}</div>}
+                {erro && <div className="alert alert-error">{erro}</div>}
 
-            <form onSubmit={handleRegistrar}>
-                <div>
-                    <label>Veículo Disponível:</label>
-                    <select value={veiculoId} onChange={(e) => setVeiculoId(e.target.value)} required>
-                        <option value="">Selecione um veículo</option>
-                        {veiculosDisponiveis.map((v) => (
-                            <option key={v.id} value={v.id}>
-                                {v.marca} {v.modelo} - {v.placa} (R$ {v.valor_diaria.toFixed(2)}/dia)
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                {valorCalculado !== null && (
+                    <div className="receipt-box">
+                        <div>
+                            <p style={{ color: '#cbd5e1', fontSize: '0.9rem' }}>Resumo da sua reserva</p>
+                            <h3>Valor total calculado pelo sistema</h3>
+                        </div>
+                        <strong>R$ {valorCalculado.toFixed(2)}</strong>
+                    </div>
+                )}
 
-                <div>
-                    <label>Data de Início:</label>
-                    <input type="datetime-local" value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} required />
-                </div>
+                <section className="card">
+                    <h2 className="card-title">Registrar Nova Locação</h2>
+                    <p className="card-subtitle">A estrada chama. Você escolhe o destino.</p>
 
-                <div>
-                    <label>Data Prevista de Devolução:</label>
-                    <input type="datetime-local" value={dataPrevista} onChange={(e) => setDataPrevista(e.target.value)} required />
-                </div>
+                    <form onSubmit={handleRegistrar}>
+                        <div className="form-group">
+                            <label>Selecione o Veículo Disponível</label>
+                            <select value={veiculoId} onChange={(e) => setVeiculoId(e.target.value)} required>
+                                <option value="">Encontre seu próximo carro...</option>
+                                {veiculosDisponiveis.map((v) => (
+                                    <option key={v.id} value={v.id}>
+                                        {v.marca} {v.modelo} ({v.ano}) — Placa {v.placa} — R$ {v.valor_diaria.toFixed(2)}/dia
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                <button type="submit">Alugar Veículo</button>
-            </form>
+                        <div className="form-grid" style={{ marginBottom: '20px' }}>
+                            <div className="form-group">
+                                <label>Data e Hora de Retirada</label>
+                                <input
+                                    type="datetime-local"
+                                    value={dataInicio}
+                                    onChange={(e) => setDataInicio(e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Data e Hora Prevista de Devolução</label>
+                                <input
+                                    type="datetime-local"
+                                    value={dataPrevista}
+                                    onChange={(e) => setDataPrevista(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <button type="submit" className="btn btn-primary">
+                            Reserve seu veículo
+                        </button>
+                    </form>
+                </section>
+            </main>
         </div>
     );
 }
